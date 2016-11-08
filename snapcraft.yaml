@@ -1,0 +1,22 @@
+name: appindicator-client
+version: 0.1
+summary: Test appindicator using libappindicator
+description: appindicator using libapindicator
+
+grade: stable
+confinement: strict
+
+apps:
+  appindicator-client:
+    command: desktop-launch $SNAP/simple-client
+    plugs: [unity7]
+
+parts:
+  simple-client:
+    plugin: make
+    source: .
+    build-packages:
+      - pkg-config
+      - libappindicator3-dev
+    artifacts: ['simple-client', 'simple-client-test-icon.png']
+    after: [desktop-gtk3]
