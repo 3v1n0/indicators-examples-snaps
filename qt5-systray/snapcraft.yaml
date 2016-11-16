@@ -13,6 +13,29 @@ parts:
     after:
       - desktop-qt5
 
+  desktop-qt5:
+    stage: [ -usr/lib/*/qt5/plugins/platformthemes/libappmenu-qt5.so ]
+
+  indicator-support:
+    plugin: qmake
+    qt-version: qt5
+    build-packages:
+      - libdbusmenu-qt5-dev
+      - libgles2-mesa-dev
+      - libglib2.0-dev
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libinput-dev
+      - libmtdev-dev
+      - libqt5x11extras5-dev
+      - libudev-dev
+      - libxrender-dev
+      - qtbase5-dev
+      - qtbase5-private-dev
+      - pkg-config
+      - libgtk2.0-dev
+    source: lp:~3v1n0/appmenu-qt5/icons-user-cache-on-snap
+
 apps:
   qt5-systray:
     command: desktop-launch systray
