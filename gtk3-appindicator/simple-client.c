@@ -7,16 +7,16 @@ Copyright 2009 Canonical Ltd.
 Authors:
     Ted Gould <ted@canonical.com>
 
-This program is free software: you can redistribute it and/or modify it 
-under the terms of the GNU General Public License version 3, as published 
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License version 3, as published
 by the Free Software Foundation.
 
-This program is distributed in the hope that it will be useful, but 
-WITHOUT ANY WARRANTY; without even the implied warranties of 
-MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR 
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranties of
+MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
 PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along 
+You should have received a copy of the GNU General Public License along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
@@ -152,79 +152,79 @@ percent_change (gpointer user_data)
 int
 main (int argc, char ** argv)
 {
-        GtkWidget *menu = NULL;
-        AppIndicator *ci = NULL;
+    GtkWidget *menu = NULL;
+    AppIndicator *ci = NULL;
 
-        gtk_init (&argc, &argv);
+    gtk_init (&argc, &argv);
 
-        ci = app_indicator_new ("example-simple-client",
-                                "indicator-messages",
-                                APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
+    ci = app_indicator_new ("example-simple-client",
+                            "indicator-messages",
+                            APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 
     g_assert (IS_APP_INDICATOR (ci));
-        g_assert (G_IS_OBJECT (ci));
+    g_assert (G_IS_OBJECT (ci));
 
     app_indicator_set_status (ci, APP_INDICATOR_STATUS_ACTIVE);
     app_indicator_set_attention_icon_full(ci, "indicator-messages-new", "System Messages Icon Highlighted");
     app_indicator_set_label (ci, "1%", "100%");
-	app_indicator_set_title (ci, "Test Inidcator");
+    app_indicator_set_title (ci, "Test Inidcator");
 
     g_signal_connect (ci, "scroll-event",
-                      G_CALLBACK (scroll_event_cb), NULL);
+      G_CALLBACK (scroll_event_cb), NULL);
 
     g_timeout_add_seconds(1, percent_change, ci);
 
-        menu = gtk_menu_new ();
-        GtkWidget *item = gtk_check_menu_item_new_with_label ("1");
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (item_clicked_cb), "1");
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show (item);
+    menu = gtk_menu_new ();
+    GtkWidget *item = gtk_check_menu_item_new_with_label ("1");
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (item_clicked_cb), "1");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show (item);
 
-        item = gtk_radio_menu_item_new_with_label (NULL, "2");
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (item_clicked_cb), "2");
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show (item);
+    item = gtk_radio_menu_item_new_with_label (NULL, "2");
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (item_clicked_cb), "2");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show (item);
 
-        item = gtk_menu_item_new_with_label ("3");
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        append_submenu (item);
-        gtk_widget_show (item);
+    item = gtk_menu_item_new_with_label ("3");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    append_submenu (item);
+    gtk_widget_show (item);
 
-        GtkWidget *toggle_item = gtk_menu_item_new_with_label ("Toggle 3");
-        g_signal_connect (toggle_item, "activate",
-                          G_CALLBACK (toggle_sensitivity_cb), item);
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), toggle_item);
-        gtk_widget_show(toggle_item);
+    GtkWidget *toggle_item = gtk_menu_item_new_with_label ("Toggle 3");
+    g_signal_connect (toggle_item, "activate",
+                      G_CALLBACK (toggle_sensitivity_cb), item);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), toggle_item);
+    gtk_widget_show(toggle_item);
 
-        item = gtk_image_menu_item_new_from_stock (GTK_STOCK_NEW, NULL);
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (image_clicked_cb), NULL);
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show(item);
+    item = gtk_image_menu_item_new_from_stock (GTK_STOCK_NEW, NULL);
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (image_clicked_cb), NULL);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show(item);
 
-        item = gtk_menu_item_new_with_label ("Get Attention");
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (activate_clicked_cb), ci);
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show(item);
-        app_indicator_set_secondary_activate_target(ci, item);
+    item = gtk_menu_item_new_with_label ("Get Attention");
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (activate_clicked_cb), ci);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show(item);
+    app_indicator_set_secondary_activate_target(ci, item);
 
-        item = gtk_menu_item_new_with_label ("Show label");
-        label_toggle_cb(item, ci);
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (label_toggle_cb), ci);
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show(item);
+    item = gtk_menu_item_new_with_label ("Show label");
+    label_toggle_cb(item, ci);
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (label_toggle_cb), ci);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show(item);
 
-        item = gtk_check_menu_item_new_with_label ("Set Local Icon");
-        g_signal_connect (item, "activate",
-                          G_CALLBACK (local_icon_toggle_cb), ci);
-        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-        gtk_widget_show(item);
+    item = gtk_check_menu_item_new_with_label ("Set Local Icon");
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (local_icon_toggle_cb), ci);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show(item);
 
-        app_indicator_set_menu (ci, GTK_MENU (menu));
+    app_indicator_set_menu (ci, GTK_MENU (menu));
 
     mainloop = g_main_loop_new(NULL, FALSE);
     g_main_loop_run(mainloop);

@@ -1,4 +1,4 @@
-name: appindicator-client
+name: gtk3-appindicator
 version: 0.1
 summary: Test appindicator using libappindicator
 description: appindicator using libapindicator
@@ -7,13 +7,15 @@ grade: stable
 confinement: strict
 
 apps:
-  appindicator-client:
+  gtk3-appindicator:
     command: desktop-launch $SNAP/simple-client
     plugs: [unity7]
 
 parts:
   simple-client:
     plugin: make
+    make-parameters:
+      - ICON_PATH=/snap/$SNAPCRAFT_PROJECT_NAME/current
     source: .
     build-packages:
       - pkg-config
