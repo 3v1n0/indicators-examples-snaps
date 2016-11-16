@@ -182,11 +182,12 @@ void Window::createIconGroupBox()
     iconGroupBox = new QGroupBox(tr("Tray Icon"));
 
     iconLabel = new QLabel("Icon:");
+    QString iconPath("/usr/share/icons/Humanity/apps/24/indicator-applet.svg");
 
     iconComboBox = new QComboBox;
-    iconComboBox->addItem(QIcon(":/images/bad.png"), tr("Bad"));
     iconComboBox->addItem(QIcon(":/images/heart.png"), tr("Heart"));
-    iconComboBox->addItem(QIcon(":/images/trash.png"), tr("Trash"));
+    iconComboBox->addItem(QIcon(QString::fromUtf8(getenv("SNAP")) + iconPath), tr("File Path"));
+    iconComboBox->addItem(QIcon::fromTheme("indicator-messages"), tr("Themed Icon"));
 
     showIconCheckBox = new QCheckBox(tr("Show icon"));
     showIconCheckBox->setChecked(true);

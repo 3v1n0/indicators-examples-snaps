@@ -153,7 +153,7 @@ void Window::createIconGroupBox()
     iconGroupBox = new QGroupBox(tr("Tray Icon"));
 
     iconLabel = new QLabel("Icon:");
-    QString iconPath("/usr/lib/qt4/examples/desktop/systray/images/trash.svg");
+    QString iconPath("/usr/share/icons/Humanity/apps/24/indicator-applet.svg");
 
     iconComboBox = new QComboBox;
     iconComboBox->addItem(QIcon(":/images/heart.svg"), tr("QResource Icon"));
