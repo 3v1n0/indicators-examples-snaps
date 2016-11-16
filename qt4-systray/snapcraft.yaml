@@ -7,9 +7,13 @@ confinement: strict
 
 parts:
   indicator-support:
-    plugin: nil
-    stage-packages:
-      - sni-qt
+    plugin: cmake
+    build-packages:
+      - libdbusmenu-qt-dev
+      - libqt4-dev
+      - pkg-config
+      - qt4-qmake
+    source: lp:~3v1n0/sni-qt/icons-user-cache-on-snap
 
   qt4-systray:
     plugin: qmake
