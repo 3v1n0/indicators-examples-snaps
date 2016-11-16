@@ -1,0 +1,25 @@
+name: qt4-systray
+version: 4.8
+summary: Qt4 systray example
+description: Test indicator icons from a snap
+grade: "devel"
+confinement: strict
+
+parts:
+  indicator-support:
+    plugin: nil
+    stage-packages:
+      - sni-qt
+
+  qt4-systray:
+    plugin: qmake
+    qt-version: qt4
+    source: .
+    after:
+      - desktop-qt4
+
+apps:
+  qt4-systray:
+    command: desktop-launch $SNAP/usr/lib/qt4/examples/desktop/systray/systray
+    plugs:
+      - unity7
