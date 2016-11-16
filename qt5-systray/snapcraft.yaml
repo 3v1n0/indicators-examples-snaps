@@ -1,0 +1,20 @@
+name: qt5-systray
+version: 5.7
+summary: Qt5 systray example
+description: Test indicator icons from a snap
+grade: "devel"
+confinement: strict
+
+parts:
+  qt5-systray:
+    plugin: qmake
+    qt-version: qt5
+    source: .
+    after:
+      - desktop-qt5
+
+apps:
+  qt5-systray:
+    command: desktop-launch systray
+    plugs:
+      - unity7
