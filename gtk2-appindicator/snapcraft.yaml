@@ -40,6 +40,8 @@ parts:
       - ./**/lib*.so.*
       - ./**/*.typelib
       - ./**/python2.7/**/appindicator
+      - ./**/lib/cli
+      - ./**/lib/mono
 
     build-packages:
       - at-spi2-core
