@@ -15,10 +15,10 @@ parts:
   simple-client:
     plugin: make
     make-parameters:
-      - ICON_PATH=/snap/$SNAPCRAFT_PROJECT_NAME/current
+      - ICON_PATH=/snap/$SNAPCRAFT_PROJECT_NAME/current/icons
     source: .
     build-packages:
       - pkg-config
       - libappindicator3-dev
-    artifacts: ['simple-client', 'simple-client-test-icon.png']
+    artifacts: ['simple-client', 'icons']
     after: [desktop-gtk3]
