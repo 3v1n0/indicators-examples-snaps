@@ -6,21 +6,13 @@ grade: "devel"
 confinement: strict
 
 parts:
-  indicator-support:
-    plugin: cmake
-    build-packages:
-      - libdbusmenu-qt-dev
-      - libqt4-dev
-      - pkg-config
-      - qt4-qmake
-    source: lp:~3v1n0/sni-qt/icons-user-cache-on-snap
-
   qt4-systray:
     plugin: qmake
     qt-version: qt4
     source: .
     after:
       - desktop-qt4
+      - indicator-qt4
 
 apps:
   qt4-systray:
