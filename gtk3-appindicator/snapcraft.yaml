@@ -22,6 +22,9 @@ parts:
     artifacts: ['simple-client', 'icons']
     after: [desktop-gtk3, indicator-support]
 
+  desktop-gtk3:
+    stage: [ -./**/libappindicator*.so.* ]
+
   indicator-support:
     plugin: autotools
     source: lp:~3v1n0/libappindicator/incons-paths-on-snap
