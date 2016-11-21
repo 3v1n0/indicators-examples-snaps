@@ -1,0 +1,63 @@
+name: gtk2-appindicator
+version: 0.1
+summary: Test appindicator using libappindicator
+description: appindicator using libapindicator
+
+grade: stable
+confinement: strict
+
+apps:
+  gtk2-appindicator:
+    command: desktop-launch $SNAP/simple-client
+    plugs: [unity7]
+
+parts:
+  simple-client:
+    plugin: make
+    make-parameters:
+      - ICON_PATH=/icons
+    source: .
+    build-packages:
+      - pkg-config
+    artifacts: ['simple-client', 'icons']
+    after: [desktop-gtk2, indicator-support]
+
+  desktop-gtk2:
+    stage: [ -./**/libappindicator*.so.* ]
+
+  indicator-support:
+    plugin: autotools
+    source: lp:~3v1n0/libappindicator/incons-paths-on-snap
+    configflags:
+      - --prefix=/usr
+      - --with-gtk=2
+      - --enable-gtk-doc=no
+      - --enable-gtk-doc-html=no
+      - --disable-tests
+      - --disable-mono-test
+
+    snap:
+      - ./**/lib*.so.*
+      - ./**/*.typelib
+      - ./**/python2.7/**/appindicator
+
+    build-packages:
+      - at-spi2-core
+      - gobject-introspection
+      - intltool
+      - libdbus-glib-1-dev
+      - libdbusmenu-glib-dev
+      - libdbusmenu-gtk-dev
+      - libgirepository1.0-dev
+      - libglib2.0-dev
+      - libgtk2.0-dev
+      - python-all-dev
+      - python-gtk2-dev
+      - valac
+
+      # #Mono support
+      # - cli-common-dev # [!arm64 !ppc64el]
+      # - libnunit-cil-dev # [!arm64 !ppc64el]
+      # - mono-devel # [!arm64 !ppc64el]
+      # - gtk-sharp2-gapi # [!arm64 !ppc64el]
+      # - libgtk2.0-cil-dev # [!arm64 !ppc64el]
