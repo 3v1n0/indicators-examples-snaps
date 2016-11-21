@@ -4,11 +4,11 @@ DEPS := appindicator3-0.1
 
 CFLAGS	?= -O3 -g
 
-ICON_PATH ?= .
+ICON_PATH ?= ./
 
 BIN     := $(NAME)
 LIBS    += $(shell pkg-config --libs $(DEPS))
-CFLAGS  += $(shell pkg-config --cflags $(DEPS)) -DLOCAL_ICON="\"$(ICON_PATH)/simple-client-test-icon.png\""
+CFLAGS  += $(shell pkg-config --cflags $(DEPS)) -DICON_PATH="\"$(ICON_PATH)\""
 
 OBJS    = $(subst .c,.o, $(SRC))
 CC 	?= $(CROSS)gcc

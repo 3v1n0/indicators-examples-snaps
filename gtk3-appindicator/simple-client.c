@@ -24,7 +24,16 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "libdbusmenu-glib/server.h"
 #include "libdbusmenu-glib/menuitem.h"
 
+#define DEFAULT_ICON "tray-online"
+#define DEFAULT_ACTIVE_ICON "tray-new-im"
+
+#define LOCAL_ICON ICON_PATH G_DIR_SEPARATOR_S "simple-client-test-icon.png"
+#define LOCAL_ACTIVE_ICON ICON_PATH G_DIR_SEPARATOR_S "simple-client-test-icon-active.png"
+
+
 GMainLoop * mainloop = NULL;
+static GtkWidget *local_icon_menu = NULL;
+static GtkWidget *local_theme_menu = NULL;
 static gboolean active = TRUE;
 static gboolean can_haz_label = TRUE;
 
@@ -57,6 +66,23 @@ activate_clicked_cb (GtkWidget *widget, gpointer data)
         active = TRUE;
     }
 
+    return;
+}
+
+static void
+reset_icons (AppIndicator * ci)
+{
+    if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(local_theme_menu))) {
+        app_indicator_set_icon_theme_path(ci, ICON_PATH);
+        app_indicator_set_icon_full(ci, "custom-themed-icon", "Custom Themed Icon");
+        app_indicator_set_attention_icon_full(ci, "custom-themed-icon-attention", "CUstom Themed Icon for Attention");
+    } else {
+        app_indicator_set_icon_full(ci, DEFAULT_ICON, "System Icon");
+        app_indicator_set_attention_icon_full(ci, DEFAULT_ACTIVE_ICON, "System Active Icon");
+        app_indicator_set_icon_theme_path(ci, NULL);
+    }
+
+    return;
 }
 
 static void
@@ -66,8 +92,19 @@ local_icon_toggle_cb (GtkWidget *widget, gpointer data)
 
     if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
         app_indicator_set_icon_full(ci, LOCAL_ICON, "Local Icon");
+        app_indicator_set_attention_icon_full(ci, LOCAL_ACTIVE_ICON, "Local Attention Icon");
     } else {
-        app_indicator_set_icon_full(ci, "indicator-messages", "System Icon");
+        reset_icons(ci);
+    }
+
+    return;
+}
+
+static void
+local_theme_toggle_cb (GtkWidget *widget, gpointer data)
+{
+    if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(local_icon_menu))) {
+        reset_icons(APP_INDICATOR(data));
     }
 
     return;
@@ -158,14 +195,14 @@ main (int argc, char ** argv)
     gtk_init (&argc, &argv);
 
     ci = app_indicator_new ("example-simple-client",
-                            "indicator-messages",
+                            DEFAULT_ICON,
                             APP_INDICATOR_CATEGORY_APPLICATION_STATUS);
 
     g_assert (IS_APP_INDICATOR (ci));
     g_assert (G_IS_OBJECT (ci));
 
     app_indicator_set_status (ci, APP_INDICATOR_STATUS_ACTIVE);
-    app_indicator_set_attention_icon_full(ci, "indicator-messages-new", "System Messages Icon Highlighted");
+    app_indicator_set_attention_icon_full(ci, DEFAULT_ACTIVE_ICON, "System Attention Icon");
     app_indicator_set_label (ci, "1%", "100%");
     app_indicator_set_title (ci, "Test Inidcator");
 
@@ -218,9 +255,17 @@ main (int argc, char ** argv)
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     gtk_widget_show(item);
 
-    item = gtk_check_menu_item_new_with_label ("Set Local Icon");
+    item = gtk_check_menu_item_new_with_label ("Set Icon with Full Path");
+    local_icon_menu = item;
     g_signal_connect (item, "activate",
                       G_CALLBACK (local_icon_toggle_cb), ci);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+    gtk_widget_show(item);
+
+    item = gtk_check_menu_item_new_with_label ("Enable Local Theme");
+    local_theme_menu = item;
+    g_signal_connect (item, "activate",
+                      G_CALLBACK (local_theme_toggle_cb), ci);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     gtk_widget_show(item);
 
