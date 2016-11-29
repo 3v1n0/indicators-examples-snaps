@@ -4,11 +4,12 @@ DEPS := appindicator3-0.1
 
 CFLAGS	?= -O3 -g
 
-ICON_PATH ?= ./
+PREFIX ?= $(CURDIR)
+ICON_PATH ?= ./icons
 
 BIN     := $(NAME)
 LIBS    += $(shell pkg-config --libs $(DEPS))
-CFLAGS  += $(shell pkg-config --cflags $(DEPS)) -DICON_PATH="\"$(ICON_PATH)\""
+CFLAGS  += $(shell pkg-config --cflags $(DEPS)) -DPREFIX="\"$(PREFIX)\"" -DICON_PATH="\"$(ICON_PATH)\""
 
 OBJS    = $(subst .c,.o, $(SRC))
 CC 	?= $(CROSS)gcc

@@ -15,6 +15,7 @@ parts:
   simple-client:
     plugin: make
     make-parameters:
+      - PREFIX=/snap/gtk3-appindicator/current
       - ICON_PATH=/icons
     source: .
     build-packages:

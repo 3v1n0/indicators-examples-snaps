@@ -28,7 +28,8 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_ACTIVE_ICON "tray-new-im"
 
 #define LOCAL_ICON ICON_PATH G_DIR_SEPARATOR_S "simple-client-test-icon.png"
-#define LOCAL_ACTIVE_ICON ICON_PATH G_DIR_SEPARATOR_S "simple-client-test-icon-active.png"
+#define LOCAL_ACTIVE_ICON PREFIX G_DIR_SEPARATOR_S ICON_PATH G_DIR_SEPARATOR_S \
+                          "simple-client-test-icon-active.png"
 
 
 GMainLoop * mainloop = NULL;
